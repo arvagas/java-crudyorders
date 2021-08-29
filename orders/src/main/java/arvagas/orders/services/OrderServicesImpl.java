@@ -70,4 +70,13 @@ public class OrderServicesImpl implements OrderServices {
 
     return orderRepository.save(newOrder);
   }
+
+  @Transactional
+  @Override
+  public void delete(long id) {
+    orderRepository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException("Order " + id + " not found!"));
+    
+    orderRepository.deleteById(id);
+  }
 }

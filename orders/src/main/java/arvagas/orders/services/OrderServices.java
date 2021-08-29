@@ -11,4 +11,6 @@ public interface OrderServices {
   List<AdvanceAmountOrders> getAdvanceAmountOrders();
 
   Order save(Order order);
+
+  void delete(long id);
 }
