@@ -62,7 +62,7 @@ public class CustomerController {
   }
 
   @PostMapping(value = "/customer", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<?> addNewCustomer(@Valid @RequestBody Customer customer) {
+  public ResponseEntity<?> addNewCustomer(@RequestBody @Valid Customer customer) {
     customer.setCustcode(0);
 
     Customer newCustomer = customerServices.save(customer);
@@ -78,7 +78,7 @@ public class CustomerController {
   }
 
   @PutMapping(value = "/customer/{id}", produces = "application/json", consumes = "application/json")
-  public ResponseEntity<?> replaceCustomerById(@PathVariable long id, @Valid Customer customer) {
+  public ResponseEntity<?> replaceCustomerById(@PathVariable long id, @RequestBody @Valid Customer customer) {
     customer.setCustcode(id);
 
     Customer replaceCustomer = customerServices.save(customer);
