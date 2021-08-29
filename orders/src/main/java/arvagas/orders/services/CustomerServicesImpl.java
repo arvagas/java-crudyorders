@@ -184,4 +184,11 @@ public class CustomerServicesImpl implements CustomerServices {
 
     return customerRepository.save(updateCustomer);
   }
+
+  public void delete(long id) {
+    customerRepository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException("Customer " + id + " not found!"));
+    
+    customerRepository.deleteById(id);
+  }
 }
