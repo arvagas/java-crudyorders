@@ -1,14 +1,21 @@
 package arvagas.orders.controllers;
 
+import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import arvagas.orders.models.Order;
 import arvagas.orders.services.OrderServices;
@@ -32,5 +39,21 @@ public class OrderController {
     List<AdvanceAmountOrders> list = orderServices.getAdvanceAmountOrders();
 
     return new ResponseEntity<>(list, HttpStatus.OK);
+  }
+
+  @PostMapping(value = "/order", produces = "application/json", consumes = "application/json")
+  public ResponseEntity<?> addNewOrder(@Valid @RequestBody Order order) {
+    order.setOrdnum(0);
+
+    Order newOrder = orderServices.save(order);
+
+    HttpHeaders responseHeaders = new HttpHeaders();
+    URI newRestaurantURI = ServletUriComponentsBuilder.fromCurrentRequest()
+        .path("/{ordnum}")
+        .buildAndExpand(newOrder.getOrdnum())
+        .toUri();
+    responseHeaders.setLocation(newRestaurantURI);
+
+    return new ResponseEntity<>(newOrder, responseHeaders, HttpStatus.CREATED);
   }
 }

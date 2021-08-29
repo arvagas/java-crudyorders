@@ -9,4 +9,6 @@ public interface OrderServices {
   Order findById(long id);
 
   List<AdvanceAmountOrders> getAdvanceAmountOrders();
+
+  Order save(Order order);
 }
