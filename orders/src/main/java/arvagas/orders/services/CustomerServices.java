@@ -15,4 +15,6 @@ public interface CustomerServices {
   List<OrderCounts> getOrderCounts();
 
   Customer save(Customer customer);
+
+  Customer update(long id, Customer customer);
 }

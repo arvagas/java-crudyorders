@@ -29,6 +29,12 @@ public class Order {
   inverseJoinColumns = @JoinColumn(name = "paymentid"))
   @JsonIgnoreProperties(value = "orders", allowSetters = true)
   private Set<Payment> payments = new HashSet<>();
+
+  @Transient
+  public boolean hasvalueforordamount = false;
+
+  @Transient
+  public boolean hasvalueforadvanceamount = false;
   
   public Order() {
   }
@@ -69,6 +75,7 @@ public class Order {
   }
 
   public void setOrdamount(double ordamount) {
+    hasvalueforordamount = true;
     this.ordamount = ordamount;
   }
 
@@ -77,6 +84,7 @@ public class Order {
   }
 
   public void setAdvanceamount(double advanceamount) {
+    hasvalueforadvanceamount = true;
     this.advanceamount = advanceamount;
   }
 
